@@ -1,212 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mademoiselle Colette Hotspots</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
-      font-family: Baskerville, serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mademoiselle Colette Hotspots</title>
+<style>
+/* Fullscreen setup */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
 
-    /* Fullscreen background image */
-    .image-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: url('https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/72442Mademoiselle_photoshoot_3_SELECTS_221.jpg') no-repeat center center;
-      background-size: cover;
-    }
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 
-    /* Hotspot (hover/tap area) */
-    .hotspot {
-      position: absolute;
-      width: 3%;
-      aspect-ratio: 1/1;
-      cursor: pointer;
-      transform: translate(-50%, -50%);
-    }
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-    /* Pulsing indicator */
-    .hotspot::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 12px;
-      height: 12px;
-      background: rgba(160,160,160,0.7);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      animation: subtle-pulse 2s infinite;
-      pointer-events: none;
-    }
+/* Hotspot styling */
+.hotspot {
+  position: absolute;
+  width: 4%;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
 
-    @keyframes subtle-pulse {
-      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-      50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-    }
+/* Pulsing hotspot indicator */
+.hotspot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: rgba(160,160,160,0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: subtle-pulse 2s infinite;
+  pointer-events: none;
+}
 
-    /* Popup preview box */
-    .preview {
-      position: absolute;
-      display: none;
-      bottom: 110%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.95);
-      border-radius: 6px;
-      padding: 8px;
-      width: auto;
-      max-width: 250px;
-      min-width: 140px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      z-index: 10;
-      transition: opacity 0.3s ease;
-      opacity: 0;
-    }
+@keyframes subtle-pulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+}
 
-    .preview img {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-      display: block;
-    }
+/* Preview popup */
+.preview {
+  position: absolute;
+  display: none;
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.95);
+  border-radius: 6px;
+  padding: 8px;
+  width: 150px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
 
-    .preview h4 {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #4a2c1f;
-      margin: 6px 0 4px 0;
-      text-align: center;
-      text-transform: capitalize;
-    }
+.hotspot:hover .preview {
+  display: block;
+  opacity: 1;
+}
 
-    .preview p {
-      font-size: 0.85rem;
-      margin: 4px 0 0 0;
-      text-align: center;
-      color: #333;
-      line-height: 1.3em;
-    }
+/* Preview content */
+.preview img { width: 100%; height: auto; border-radius: 4px; }
+.preview h4 { font-size: 14px; text-align: center; margin: 6px 0 4px 0; color: #4a2c1f; }
+.preview p { font-size: 12px; text-align: center; margin: 4px 0 0 0; color: #333; line-height: 1.3em; }
 
-    /* Mobile adjustments */
-    @media screen and (max-width: 600px) {
-      .hotspot {
-        width: 6%;
-      }
-      .hotspot::before {
-        width: 16px;
-        height: 16px;
-      }
-      .preview {
-        bottom: 120%;
-        width: 60%;
-        max-width: none;
-        min-width: 140px;
-      }
-    }
-
-  </style>
+/* Mobile adjustments */
+@media screen and (max-width: 600px) {
+  .hotspot { width: 8%; }
+  .preview { top: -160px; width: 120px; }
+  .preview h4 { font-size: 12px; }
+  .preview p { font-size: 11px; }
+}
+</style>
 </head>
 <body>
 
-  <div class="image-container">
-    <!-- Hotspot 1 -->
-    <div class="hotspot" style="top: 60%; left: 60%;">
-      <div class="preview">
-        <h4>Chocolate Yule Log</h4>
-        <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/344335_Chocolate_yule_log_8P.jpg" alt="Chocolate Yule Log">
-        <p>Delicate chocolate sponge meets creamy vanilla and luscious praline crunch, layered with smooth chocolate mousse finish.</p>
-      </div>
-    </div>
+<div class="image-container">
+  <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/72442Mademoiselle_photoshoot_3_SELECTS_221.jpg" alt="Main Image" class="main-image">
 
-    <!-- Hotspot 2 -->
-    <div class="hotspot" style="top: 60%; left: 80%;">
-      <div class="preview">
-        <h4>Guava Yule Log</h4>
-        <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/239766_Guava_yule_log_8P.jpg" alt="Guava Yule Log">
-        <p>Buttery shortbread, creamy cheesecake, and tangy guava gel layered in smooth cream cheese mousse.</p>
-      </div>
-    </div>
-
-    <!-- Hotspot 3 -->
-    <div class="hotspot" style="top: 60%; left: 40%;">
-      <div class="preview">
-        <h4>Raspberry Coco Yule Log</h4>
-        <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/125758_Raspberry_coco_yule_log_8P.jpg" alt="Raspberry Coco Yule Log">
-        <p>Crispy coconut layers embrace tangy raspberry cream and gel, all inside a smooth coconut mousse.</p>
-      </div>
-    </div>
-
-    <!-- Hotspot 4 -->
-    <div class="hotspot" style="top: 60%; left: 20%;">
-      <div class="preview">
-        <h4>Exotique Yule Log</h4>
-        <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/925947_Exotique_yule_log_8p.jpg" alt="Exotique Yule Log">
-        <p>Pecan sponge and crunch meet silky exotic cream, vibrant mango passion fruit gel, and a velvety dulcey mousse.</p>
-      </div>
+  <!-- Hotspot 1 -->
+  <div class="hotspot" style="top: 60%; left: 60%;">
+    <div class="preview">
+      <h4>Chocolate Yule Log</h4>
+      <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/344335_Chocolate_yule_log_8P.jpg" alt="Chocolate Yule Log">
+      <p>Delicate chocolate sponge meets creamy vanilla and luscious praline crunch, layered with smooth chocolate mousse finish.</p>
     </div>
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const hotspots = document.querySelectorAll(".hotspot");
+  <!-- Hotspot 2 -->
+  <div class="hotspot" style="top: 60%; left: 80%;">
+    <div class="preview">
+      <h4>Guava Yule Log</h4>
+      <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/239766_Guava_yule_log_8P.jpg" alt="Guava Yule Log">
+      <p>Buttery shortbread, creamy cheesecake, and tangy guava gel layered in smooth cream cheese mousse.</p>
+    </div>
+  </div>
 
-      hotspots.forEach(hotspot => {
-        const preview = hotspot.querySelector(".preview");
+  <!-- Hotspot 3 -->
+  <div class="hotspot" style="top: 60%; left: 40%;">
+    <div class="preview">
+      <h4>Raspberry Coco Yule Log</h4>
+      <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/125758_Raspberry_coco_yule_log_8P.jpg" alt="Raspberry Coco Yule Log">
+      <p>Crispy coconut layers embrace tangy raspberry cream and gel, all inside a smooth coconut mousse.</p>
+    </div>
+  </div>
 
-        // Desktop: hover adjustments
-        hotspot.addEventListener("mouseenter", () => adjustPreview(preview));
-        hotspot.addEventListener("mouseleave", () => {
-          preview.style.opacity = 0;
-          setTimeout(() => { preview.style.display = 'none'; }, 300);
-        });
+  <!-- Hotspot 4 -->
+  <div class="hotspot" style="top: 60%; left: 20%;">
+    <div class="preview">
+      <h4>Exotique Yule Log</h4>
+      <img src="https://images.getbento.com/accounts/53f1988dee8828af1d7d9db0cf07e507/media/images/925947_Exotique_yule_log_8p.jpg" alt="Exotique Yule Log">
+      <p>Pecan sponge and crunch meet silky exotic cream, vibrant mango passion fruit gel, and a velvety dulcey mousse.</p>
+    </div>
+  </div>
+</div>
 
-        // Mobile: tap to toggle
-        hotspot.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (preview.style.display === 'block') {
-            preview.style.opacity = 0;
-            setTimeout(() => { preview.style.display = 'none'; }, 300);
-          } else {
-            adjustPreview(preview);
-          }
-        });
-      });
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const hotspots = document.querySelectorAll(".hotspot");
 
-      // Hide previews when tapping outside on mobile
-      document.addEventListener("click", () => {
-        document.querySelectorAll(".preview").forEach(preview => {
-          preview.style.opacity = 0;
-          setTimeout(() => { preview.style.display = 'none'; }, 300);
-        });
-      });
+  hotspots.forEach(hotspot => {
+    const preview = hotspot.querySelector(".preview");
 
-      function adjustPreview(preview) {
+    hotspot.addEventListener("mouseenter", () => {
+      preview.style.display = 'block';
+      preview.style.opacity = 1;
+    });
+    hotspot.addEventListener("mouseleave", () => {
+      preview.style.opacity = 0;
+      setTimeout(() => { preview.style.display = 'none'; }, 300);
+    });
+
+    hotspot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (preview.style.display === 'block') {
+        preview.style.opacity = 0;
+        setTimeout(() => { preview.style.display = 'none'; }, 300);
+      } else {
         preview.style.display = 'block';
         preview.style.opacity = 1;
-        preview.style.left = '50%';
-        preview.style.transform = 'translateX(-50%)';
-
-        const rect = preview.getBoundingClientRect();
-        const windowWidth = window.innerWidth;
-
-        if (rect.left < 0) {
-          preview.style.left = '0%';
-          preview.style.transform = 'translateX(0)';
-        } else if (rect.right > windowWidth) {
-          preview.style.left = '100%';
-          preview.style.transform = 'translateX(-100%)';
-        }
       }
     });
-  </script>
+  });
+
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".preview").forEach(preview => {
+      preview.style.opacity = 0;
+      setTimeout(() => { preview.style.display = 'none'; }, 300);
+    });
+  });
+});
+</script>
 
 </body>
 </html>
